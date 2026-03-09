@@ -8,8 +8,6 @@ services:
     ports:
       - "8000:80"
     volumes:
-      - ./:/var/www/html
-
       - /opt/bot-wa-data/.env:/var/www/html/.env
       - /opt/bot-wa-data/credentials.json:/var/www/html/storage/app/credentials.json
       - /opt/bot-wa-data/database.sqlite:/var/www/html/database/database.sqlite
@@ -24,8 +22,6 @@ services:
       dockerfile: Dockerfile
     command: php artisan schedule:work
     volumes:
-      - ./:/var/www/html
-
       - /opt/bot-wa-data/.env:/var/www/html/.env
       - /opt/bot-wa-data/credentials.json:/var/www/html/storage/app/credentials.json
       - /opt/bot-wa-data/database.sqlite:/var/www/html/database/database.sqlite
@@ -39,8 +35,4 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
-    volumes:
-      - ./wa-engine:/app
-
-      - /app/node_modules
     restart: always
