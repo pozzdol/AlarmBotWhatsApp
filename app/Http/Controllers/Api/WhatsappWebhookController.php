@@ -258,9 +258,9 @@ class WhatsappWebhookController extends Controller
     {
         try {
             $uuid = \Illuminate\Support\Str::uuid()->toString();
-            $namaFile = "bukti_sholat/Bukti_{$idTugas}_{$uuid}.jpg";
+            $namaFile = "bukti_tugas/Bukti_{$idTugas}_{$uuid}.jpg";
 
-            // Simpan ke folder storage/app/public/bukti_sholat
+            // Simpan ke folder storage/app/public/bukti_tugas
             Storage::disk('public')->put($namaFile, $imageData);
 
             // Mengembalikan URL publik

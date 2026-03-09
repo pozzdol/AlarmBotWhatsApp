@@ -10,14 +10,14 @@ use Illuminate\Support\Facades\Log;
 class CleanupOldPhotos extends Command
 {
     protected $signature = 'wa:cleanup';
-    protected $description = 'Menghapus foto bukti sholat yang usianya lebih dari 30 hari dari storage lokal';
+    protected $description = 'Menghapus foto bukti tugas yang usianya lebih dari 30 hari dari storage lokal';
 
     public function handle()
     {
         $this->info("Memulai proses pembersihan foto lama...");
 
         $disk = Storage::disk('public');
-        $directory = 'bukti_sholat';
+        $directory = 'bukti_tugas';
 
         if (!$disk->exists($directory)) {
             $this->warn("Folder {$directory} belum ada. Proses dibatalkan.");
