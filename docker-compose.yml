@@ -9,12 +9,11 @@ services:
       - "8000:80"
     volumes:
       - ./:/var/www/html
-      # 3 Baris ini akan mengikat file/folder fisik di VPS ke dalam container Docker
+
+      - /opt/bot-wa-data/.env:/var/www/html/.env
       - /opt/bot-wa-data/credentials.json:/var/www/html/storage/app/credentials.json
       - /opt/bot-wa-data/database.sqlite:/var/www/html/database/database.sqlite
       - /opt/bot-wa-data/bukti_tugas:/var/www/html/storage/app/public/bukti_tugas
-    env_file:
-      - .env
     depends_on:
       - wa-engine
     restart: always
@@ -26,10 +25,10 @@ services:
     command: php artisan schedule:work
     volumes:
       - ./:/var/www/html
+
+      - /opt/bot-wa-data/.env:/var/www/html/.env
       - /opt/bot-wa-data/credentials.json:/var/www/html/storage/app/credentials.json
       - /opt/bot-wa-data/database.sqlite:/var/www/html/database/database.sqlite
-    env_file:
-      - .env
     depends_on:
       - laravel-app
     restart: always
@@ -42,5 +41,6 @@ services:
       - "3000:3000"
     volumes:
       - ./wa-engine:/app
+
       - /app/node_modules
     restart: always
