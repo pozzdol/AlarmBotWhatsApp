@@ -1,5 +1,5 @@
-# Menggunakan PHP 8.2 dengan Apache
-FROM php:8.2-apache
+# Menggunakan PHP 8.4 dengan Apache
+FROM php:8.4-apache
 
 # Menginstal library sistem yang dibutuhkan Laravel dan SQLite
 RUN apt-get update && apt-get install -y \
@@ -27,5 +27,8 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 WORKDIR /var/www/html
 COPY . .
 
-# Mengatur hak akses folder
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+# ---> TAMBAHKAN BARIS INI <---
+RUN composer install --no-dev --optimize-autoloader
+
+# Mengatur hak akses folder (tambahkan folder vendor juga)
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/vendor
