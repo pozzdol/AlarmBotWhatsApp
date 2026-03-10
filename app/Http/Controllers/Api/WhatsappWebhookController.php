@@ -96,7 +96,7 @@ class WhatsappWebhookController extends Controller
             return response()->json(['status' => 'Berhasil']);
 
         } catch (\Exception $e) {
-            Log::error("Webhook Image Error: " . $e->getMessage());
+            Log::error("[IMAGE_UPLOAD_ERROR] Webhook Image Error: " . $e->getMessage());
             return response()->json(['status' => 'Error'], 500);
         }
     }
@@ -267,7 +267,7 @@ class WhatsappWebhookController extends Controller
             return asset('storage/' . $namaFile);
 
         } catch (\Exception $e) {
-            Log::error("Local Upload Error: " . $e->getMessage());
+            Log::error("[IMAGE_UPLOAD_ERROR] Local Upload Error: " . $e->getMessage());
             return "Gagal menyimpan foto sholat.";
         }
     }
