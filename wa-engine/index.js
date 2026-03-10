@@ -30,19 +30,29 @@ client.on('message', async msg => {
     const senderName = contact.pushname || contact.name || 'Pengguna';
 
     if (msg.hasMedia) {
-        const media = await msg.downloadMedia();
-        if (media && media.mimetype.includes('image')) {
-            try {
-                await axios.post(LARAVEL_WEBHOOK_URL, {
-                    type: 'image', // Penanda jenis pesan
-                    from: msg.from,
-                    sender_name: senderName,
-                    media_data: media.data
-                });
-                console.log(`Gambar dari ${senderName} diteruskan ke Laravel.`);
-            } catch (error) {
-                console.error('Gagal webhook gambar:', error.message);
+        try {
+            const media = await msg.downloadMedia();
+            
+            // Cek apakah hasil download berhasil (tidak undefined)
+            if (media && media.mimetype.includes('image')) {
+                // Proses pengiriman ke Laravel
+                try {
+                    await axios.post(LARAVEL_WEBHOOK_URL, {
+                        type: 'image', // Penanda jenis pesan
+                        from: msg.from,
+                        sender_name: senderName,
+                        media_data: media.data
+                    });
+                    console.log(`Gambar dari ${senderName} diteruskan ke Laravel.`);
+                } catch (error) {
+                    console.error('Gagal webhook gambar:', error.message);
+                }
+            } else if (media) {
+                console.log(`Media berjenis ${media.mimetype} diabaikan (bukan gambar).`);
             }
+        } catch (err) {
+            console.error('Gagal mengunduh media:', err.message);
+            // Jangan biarkan aplikasi crash, cukup log saja error-nya
         }
     }
     else if (msg.body.startsWith('#')) {
