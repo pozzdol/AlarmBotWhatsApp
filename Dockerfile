@@ -7,11 +7,16 @@ RUN apt-get update && apt-get install -y \
     libsqlite3-dev \
     zip \
     unzip \
+    curl \
     && rm -rf /var/lib/apt/lists/*
 
 # Menginstal ekstensi PHP
 RUN docker-php-ext-install pdo pdo_sqlite
 RUN docker-php-ext-install pdo pdo_mysql bcmath
+
+# Menginstal Node.js dan NPM (untuk mem-build frontend Inertia)
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y nodejs
 
 # Mengaktifkan Apache Mod Rewrite (.htaccess)
 RUN a2enmod rewrite
@@ -30,6 +35,10 @@ COPY . .
 
 # ---> TAMBAHKAN BARIS INI <---
 RUN composer install --no-dev --optimize-autoloader
+
+# Build Frontend (Inertia, React, Tailwind)
+RUN npm install
+RUN npm run build
 
 # Mengatur hak akses folder (tambahkan folder vendor juga)
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/vendor
