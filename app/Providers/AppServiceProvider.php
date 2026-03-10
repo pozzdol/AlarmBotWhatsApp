@@ -19,6 +19,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // Memaksa penggunaan HTTPS
+        \Illuminate\Support\Facades\URL::forceScheme('https');
+
+        // Memaksa penggunaan domain dari file .env (mengabaikan nama panggilan Docker)
+        \Illuminate\Support\Facades\URL::forceRootUrl(config('app.url'));
     }
 }
