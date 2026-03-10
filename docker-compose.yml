@@ -36,3 +36,8 @@ services:
     ports:
       - "3000:3000"
     restart: always
+
+networks:
+  default:
+    name: management_tunnel_net
+    external: true
