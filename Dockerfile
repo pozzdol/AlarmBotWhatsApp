@@ -11,6 +11,7 @@ RUN apt-get update && apt-get install -y \
 
 # Menginstal ekstensi PHP
 RUN docker-php-ext-install pdo pdo_sqlite
+RUN docker-php-ext-install pdo pdo_mysql bcmath
 
 # Mengaktifkan Apache Mod Rewrite (.htaccess)
 RUN a2enmod rewrite
